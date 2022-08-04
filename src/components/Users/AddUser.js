@@ -49,7 +49,7 @@ const AddUser = (props) => {
   }
 
   return (
-    <div>
+    <>
       {error && <ErrorModal title={error.title} details={error.details} onConfirm={confirmErrorHandler} />}
       <TransparentContainer>
         <form
@@ -79,7 +79,7 @@ const AddUser = (props) => {
           <Button type="submit">Add User</Button>
         </form>
       </TransparentContainer>
-    </div>
+    </>
   );
 };
 
