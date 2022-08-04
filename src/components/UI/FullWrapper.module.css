@@ -1,0 +1,6 @@
+.bg {
+  background-image: url("../../bg-1.jpg");
+  background-clip: "content-box";
+  background-position: "center";
+  background-size: "cover";
+}
