@@ -1,14 +1,16 @@
 import TransparentContainer from "../UI/TransparentContainer";
 import Button from "../UI/Button";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import ErrorModal from "../UI/ErrorModal";
 
 const AddUser = (props) => {
-  const [enteredUsername, setEnteredUsername] = useState("");
-  const [enteredAge, setEnteredAge] = useState("");
   const [error, setError] = useState();
+  const usernameInputRef = useRef();
+  const ageInputRef = useRef();
 
   const addUserHandler = (event) => {
+    const enteredUsername = usernameInputRef.current.value;
+    const enteredAge = ageInputRef.current.value;
     event.preventDefault();
     if (enteredUsername.trim().length === 0 || enteredAge.trim().length === 0) {
       setError({
@@ -32,25 +34,23 @@ const AddUser = (props) => {
       age: enteredAge,
     };
     props.onUserAdded(user);
-    setEnteredUsername("");
-    setEnteredAge("");
+    usernameInputRef.current.value = "";
+    ageInputRef.current.value = "";
   };
 
-  const usernameChangeHandler = (event) => {
-    setEnteredUsername(event.target.value);
+  const confirmErrorHandler = () => {
+    setError(null);
   };
-
-  const ageChangeHandler = (event) => {
-    setEnteredAge(event.target.value);
-  };
-
-  const confirmErrorHandler = (event) => {
-    setError(null)
-  }
 
   return (
     <>
-      {error && <ErrorModal title={error.title} details={error.details} onConfirm={confirmErrorHandler} />}
+      {error && (
+        <ErrorModal
+          title={error.title}
+          details={error.details}
+          onConfirm={confirmErrorHandler}
+        />
+      )}
       <TransparentContainer>
         <form
           onSubmit={addUserHandler}
@@ -62,9 +62,8 @@ const AddUser = (props) => {
           <input
             type="text"
             id="username"
+            ref={usernameInputRef}
             className="w-full rounded-full p-2 text-black bg-stone-300"
-            onChange={usernameChangeHandler}
-            value={enteredUsername}
           ></input>
           <label htmlFor="age" className="w-full">
             Age:
@@ -72,9 +71,8 @@ const AddUser = (props) => {
           <input
             type="number"
             id="age"
+            ref={ageInputRef}
             className="w-full rounded-full p-2 text-black bg-stone-300"
-            onChange={ageChangeHandler}
-            value={enteredAge}
           ></input>
           <Button type="submit">Add User</Button>
         </form>
