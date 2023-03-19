@@ -4,3 +4,12 @@
   background-position: "center";
   background-size: "cover";
 }
+
+.noscroll::-webkit-scrollbar {
+  display: none;
+}
+
+.noscroll {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
